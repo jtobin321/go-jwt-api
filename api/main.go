@@ -1,4 +1,4 @@
-package api
+package main
 
 import (
 	"log"
@@ -11,14 +11,17 @@ import (
 
 var server = controllers.Server{}
 
-func Run() {
+func main() {
 	var err error
 	err = godotenv.Load()
 	if err != nil {
 		log.Fatalf("Error getting env, not coming through %v", err)
 	}
 
-	server.Initialize(os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_PORT"), os.Getenv("DB_HOST"), os.Getenv("DB_NAME"))
+	// Load test data (dev only)
+	server.Initialize()
 	seed.Load(server.DB)
-	server.Run(":8080")
+
+	// Start server on port specified in .env file
+	server.Run(os.Getenv("API_PORT"))
 }

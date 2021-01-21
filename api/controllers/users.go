@@ -15,8 +15,8 @@ import (
 	"github.com/jtobin321/go-jwt-api/api/utils/formaterror"
 )
 
+// CreateUser creates a new user in the database
 func (server *Server) CreateUser(w http.ResponseWriter, r *http.Request) {
-
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		responses.ERROR(w, http.StatusUnprocessableEntity, err)
@@ -46,6 +46,7 @@ func (server *Server) CreateUser(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusCreated, userCreated)
 }
 
+// GetUsers gets all users from the databse
 func (server *Server) GetUsers(w http.ResponseWriter, r *http.Request) {
 
 	user := models.User{}
@@ -58,6 +59,7 @@ func (server *Server) GetUsers(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, users)
 }
 
+// GetUser gets a user from the database given a user id
 func (server *Server) GetUser(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
@@ -75,6 +77,7 @@ func (server *Server) GetUser(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, userGotten)
 }
 
+// UpdateUser updates a specific user given a user id
 func (server *Server) UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
@@ -118,6 +121,7 @@ func (server *Server) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, updatedUser)
 }
 
+// DeleteUser deletes a specific user given a user id
 func (server *Server) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)

@@ -15,8 +15,8 @@ import (
 	"github.com/jtobin321/go-jwt-api/api/utils/formaterror"
 )
 
+// CreatePost creates a new post in the database for user
 func (server *Server) CreatePost(w http.ResponseWriter, r *http.Request) {
-
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		responses.ERROR(w, http.StatusUnprocessableEntity, err)
@@ -53,6 +53,7 @@ func (server *Server) CreatePost(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusCreated, postCreated)
 }
 
+// GetPosts gets all posts from databse
 func (server *Server) GetPosts(w http.ResponseWriter, r *http.Request) {
 
 	post := models.Post{}
@@ -65,6 +66,7 @@ func (server *Server) GetPosts(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, posts)
 }
 
+// GetPost gets a single post from the database given a post id
 func (server *Server) GetPost(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
@@ -83,6 +85,7 @@ func (server *Server) GetPost(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, postReceived)
 }
 
+// UpdatePost updates a post
 func (server *Server) UpdatePost(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
@@ -154,6 +157,7 @@ func (server *Server) UpdatePost(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, postUpdated)
 }
 
+// DeletePost deletes a post from the database
 func (server *Server) DeletePost(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)

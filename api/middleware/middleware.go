@@ -4,16 +4,15 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/jtobin321/go-jwt-api/api/responses"
-
 	"github.com/jtobin321/go-jwt-api/api/auth"
+	"github.com/jtobin321/go-jwt-api/api/responses"
 )
 
-func SetMiddlewareJSON(next http.HandlerFunc) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+func SetMiddlewareJSON(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		next(w, r)
-	}
+		next.ServeHTTP(w, r)
+	})
 }
 
 func SetMiddlewareAuth(next http.HandlerFunc) http.HandlerFunc {
