@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/jtobin321/go-jwt-api/api/auth"
-	"github.com/jtobin321/go-jwt-api/api/responses"
+	"github.com/jtobin321/go-jwt-api/api/utils"
 )
 
 func SetMiddlewareJSON(next http.Handler) http.Handler {
@@ -19,7 +19,7 @@ func SetMiddlewareAuth(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		err := auth.TokenValid(r)
 		if err != nil {
-			responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
+			utils.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
 			return
 		}
 
