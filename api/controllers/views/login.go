@@ -32,7 +32,7 @@ func Login(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 		utils.ERROR(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	token, err := signIn(user.Email, user.Password, db)
+	token, err := SignIn(user.Email, user.Password, db)
 	if err != nil {
 		formattedError := utils.FormatError(err.Error())
 		utils.ERROR(w, http.StatusUnprocessableEntity, formattedError)
@@ -41,7 +41,7 @@ func Login(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 	utils.JSON(w, http.StatusOK, token)
 }
 
-func signIn(email, password string, db *gorm.DB) (string, error) {
+func SignIn(email, password string, db *gorm.DB) (string, error) {
 
 	var err error
 

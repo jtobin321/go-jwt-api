@@ -46,25 +46,25 @@ func (s *Server) initializeRoutes() {
 	s.Router.HandleFunc("/", views.Home).Methods("GET")
 
 	// // Login route
-	s.Router.HandleFunc("/login", s.createRouterFunc(views.Login)).Methods("POST")
+	s.Router.HandleFunc("/login", s.CreateRouterFunc(views.Login)).Methods("POST")
 
 	//Users routes
-	s.Router.HandleFunc("/users", s.createRouterFunc(users.CreateUser)).Methods("POST")
-	s.Router.HandleFunc("/users", s.createRouterFunc(users.GetUsers)).Methods("GET")
-	s.Router.HandleFunc("/users/{id}", s.createRouterFunc(users.GetUser)).Methods("GET")
-	s.Router.HandleFunc("/users/{id}", middleware.SetMiddlewareAuth(s.createRouterFunc(users.UpdateUser))).Methods("PUT")
-	s.Router.HandleFunc("/users/{id}", middleware.SetMiddlewareAuth(s.createRouterFunc(users.DeleteUser))).Methods("DELETE")
+	s.Router.HandleFunc("/users", s.CreateRouterFunc(users.CreateUser)).Methods("POST")
+	s.Router.HandleFunc("/users", s.CreateRouterFunc(users.GetUsers)).Methods("GET")
+	s.Router.HandleFunc("/users/{id}", s.CreateRouterFunc(users.GetUser)).Methods("GET")
+	s.Router.HandleFunc("/users/{id}", middleware.SetMiddlewareAuth(s.CreateRouterFunc(users.UpdateUser))).Methods("PUT")
+	s.Router.HandleFunc("/users/{id}", middleware.SetMiddlewareAuth(s.CreateRouterFunc(users.DeleteUser))).Methods("DELETE")
 
 	//Posts routes
-	s.Router.HandleFunc("/posts", s.createRouterFunc(posts.CreatePost)).Methods("POST")
-	s.Router.HandleFunc("/posts", s.createRouterFunc(posts.GetPosts)).Methods("GET")
-	s.Router.HandleFunc("/posts/{id}", s.createRouterFunc(posts.GetPost)).Methods("GET")
-	s.Router.HandleFunc("/posts/{id}", middleware.SetMiddlewareAuth(s.createRouterFunc(posts.UpdatePost))).Methods("PUT")
-	s.Router.HandleFunc("/posts/{id}", middleware.SetMiddlewareAuth(s.createRouterFunc(posts.DeletePost))).Methods("DELETE")
+	s.Router.HandleFunc("/posts", s.CreateRouterFunc(posts.CreatePost)).Methods("POST")
+	s.Router.HandleFunc("/posts", s.CreateRouterFunc(posts.GetPosts)).Methods("GET")
+	s.Router.HandleFunc("/posts/{id}", s.CreateRouterFunc(posts.GetPost)).Methods("GET")
+	s.Router.HandleFunc("/posts/{id}", middleware.SetMiddlewareAuth(s.CreateRouterFunc(posts.UpdatePost))).Methods("PUT")
+	s.Router.HandleFunc("/posts/{id}", middleware.SetMiddlewareAuth(s.CreateRouterFunc(posts.DeletePost))).Methods("DELETE")
 
 }
 
-func (s *Server) createRouterFunc(f func(http.ResponseWriter, *http.Request, *gorm.DB)) http.HandlerFunc {
+func (s *Server) CreateRouterFunc(f func(http.ResponseWriter, *http.Request, *gorm.DB)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		f(w, r, s.DB)
 	}

@@ -1,4 +1,4 @@
-package modeltests
+package controllertests
 
 import (
 	"fmt"
@@ -25,6 +25,7 @@ func TestMain(m *testing.M) {
 	Database()
 
 	os.Exit(m.Run())
+
 }
 
 func Database() {
@@ -54,7 +55,10 @@ func refreshUserTable() error {
 
 func seedOneUser() (models.User, error) {
 
-	refreshUserTable()
+	err := refreshUserTable()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	user := models.User{
 		Nickname: "Pet",
@@ -62,15 +66,19 @@ func seedOneUser() (models.User, error) {
 		Password: "password",
 	}
 
-	err := server.DB.Model(&models.User{}).Create(&user).Error
+	err = server.DB.Model(&models.User{}).Create(&user).Error
 	if err != nil {
-		log.Fatalf("cannot seed users table: %v", err)
+		return models.User{}, err
 	}
 	return user, nil
 }
 
-func seedUsers() error {
+func seedUsers() ([]models.User, error) {
 
+	var err error
+	if err != nil {
+		return nil, err
+	}
 	users := []models.User{
 		models.User{
 			Nickname: "Steven victor",
@@ -83,14 +91,13 @@ func seedUsers() error {
 			Password: "password",
 		},
 	}
-
 	for i := range users {
 		err := server.DB.Model(&models.User{}).Create(&users[i]).Error
 		if err != nil {
-			return err
+			return []models.User{}, err
 		}
 	}
-	return nil
+	return users, nil
 }
 
 func refreshUserAndPostTable() error {
